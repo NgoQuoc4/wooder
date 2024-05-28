@@ -1,0 +1,120 @@
+:root{
+    // color
+    --cl-yellow:  #BEA67C;
+    --cl-black: #000000;
+    --cl-white:  #ffffff;
+    --cl-gray: #464646; 
+
+    // max width page
+    --max-width-page: 2560px;
+    --max-width-container-fluid: 1920px;
+    --max-width-container: calc(1196px + calc(var(--gap) * 2)); 
+    --gap:28px;
+
+
+    // font-size
+    // font size  html = 62.5%
+
+    // font size pc
+    --text-uppercase: uppercase;
+
+    --h1-fs: 8.4rem;
+    --h1-lh: normal;
+    --h1-lp: 1rem;
+    --h1-ff: pb;
+
+    --h2-fs: 4.6rem;
+    --h2-lh: 5.6rem;
+    --h2-lp: 0.46rem;
+    --h2-ff: pb;
+
+    --h3-fs: 1.8rem;
+    --h3-lh: 2.4rem;
+    --h3-lp: 0.072rem;
+    --h3-ff: pb;
+
+    --text-btn-fs: 1.5rem;
+    --text-btn-lh: normal;
+    --text-btn-lp: 0.15rem;
+    --text-btn-ff: pb;
+
+    --text-bd-fs: 1.8rem;
+    --text-bd-lh: 2.5rem;
+    --text-bd-lp: 0.036rem;
+
+    --text-bd-s-fs: 1.4rem;
+    --text-bd-s-lh: normal;
+    --text-bd-s-lp: 0.056rem;
+
+    // width height
+    --height-header: 90px;
+    --height-footer: 100px;
+
+    --height-btn-header: 46px;
+    --height-btn-hero: 46px;
+    --height-btn-hero-s: 34px;
+    --height-btn-banner: 42px;
+    --height-btn-news: 36px;
+    --height-btn-footer: 33px;
+
+    --pd-section: 120px; 
+
+    // timing 
+    --duration:0.4s;
+    --cubic:  cubic-bezier(0.59, 0.29, 0.15, 0.93);
+
+    //responsive 
+    @include md{
+        --max-width-container:1140px;
+    }
+    @include sm{
+        --max-width-container:960px;
+        --pd-section:90px;
+        --height-header: 77px;
+
+    }
+    @include xs{
+        --max-width-container:720px;
+        --gap: 15px;
+        --pd-section:60px;
+
+        // font size
+        --h1-fs: 5.6rem;
+        --h1-lh: normal;
+        --h1-lp: 0.448rem;
+
+        --h2-fs: 3.8rem;
+        --h2-lh: 4.2rem;
+        --h2-lp: 0.152rem;
+        
+        --h3-fs: 1.6rem;
+        --h3-lh: 2.2rem;
+        --h3-lp: 0.064rem;
+
+        --text-btn-fs: 1.2rem;
+        --text-btn-lh: normal;
+        --text-btn-lp: 0.12rem;
+
+        --text-btn-menu-fs: 1.8rem;
+        --text-btn-menu-lh: normal;
+        --text-btn-menu-lp: 0.144rem;
+
+        --text-bd-fs: 1.5rem;
+        --text-bd-lh: 2rem;
+        --text-bd-lp: 0.06rem;
+
+        --text-bd-s-fs: 1.2rem;
+        --text-bd-s-lh: normal;
+        --text-bd-s-lp: 0.048rem;
+
+
+    }
+    @include xxs{
+        --height-header: 64px;
+
+        --height-btn-footer: 22px;
+        --max-width-container:100%;
+    }
+
+    
+}

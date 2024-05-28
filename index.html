@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Wooder</title>
+
+    <!-- facebook -->
+    <meta property="og:locale" content="en" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="CFD Circle" />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="CFD Circle" />
+    <meta property="og:image" content="" />
+
+    <!-- twitter -->
+    <meta name="twitter:card" content="" />
+    <meta name="twitter:site" content="" />
+    <meta property="twitter:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+
+
+    <style>
+        .loading {
+            background-color: var(--cl-black);
+            height: 100vh;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+        }
+
+        .loading.is__loading {
+            opacity: 1;
+            visibility: hidden;
+            transition: 0.3s;
+            --webkit-transition: 0.3s;
+
+        }
+
+        .loading .loading__inner .loading__inner-propress {
+            display: flex;
+            width: 160px;
+            height: 4px;
+            background-color: var(--cl-white);
+            margin-bottom: 16px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .loading .loading__inner .loading__inner-propress .propressbar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--cl-yellow);
+
+        }
+
+        .loading .loading__inner .loading__inner-percent {
+            text-align: center;
+            color: var(--cl-white);
+        }
+    </style>
+
+    <!-- link css -->
+    <link rel="stylesheet" href="dest/style.min.css">
+    <link rel="stylesheet" href="dest/fonts.css">
+</head>
+
+
+<body class="body" style="position: relative;">
+    <div class="loading">
+        <div class="loading__inner">
+            <div class="loading__inner-propress">
+                <span class="propressbar"></span>
+            </div>
+            <div class="loading__inner-percent"></div>
+        </div>
+    </div>
+    <div class="propressbarheader"></div>
+    <header class="header" id="header">
+        <div class="container-fluid">
+            <a href="#" class="header__logo">
+                <svg width="166" height="23" viewBox="0 0 166 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M23.7072 22.1398L29.9116 0.3592H24.6869L20.8989 16.0987L16.7844 0.3592H13.1598L9.01266 16.0987L5.19208 0.3592H0L6.23702 22.1398H11.1679L14.9558 7.18401L18.7764 22.1398H23.7072Z"
+                        fill="white" />
+                    <path
+                        d="M46.6777 22.5317C53.2739 22.5317 58.0741 17.8294 58.0741 11.2658C58.0741 4.70226 53.2739 0 46.6777 0C40.1141 0 35.3139 4.70226 35.3139 11.2658C35.3139 17.8294 40.1141 22.5317 46.6777 22.5317ZM46.6777 18.4172C42.6612 18.4172 40.0814 15.315 40.0814 11.2658C40.0814 7.18401 42.6612 4.11448 46.6777 4.11448C50.6942 4.11448 53.3065 7.18401 53.3065 11.2658C53.3065 15.315 50.6942 18.4172 46.6777 18.4172Z"
+                        fill="white" />
+                    <path
+                        d="M76.5451 22.5317C83.1413 22.5317 87.9416 17.8294 87.9416 11.2658C87.9416 4.70226 83.1413 0 76.5451 0C69.9815 0 65.1813 4.70226 65.1813 11.2658C65.1813 17.8294 69.9815 22.5317 76.5451 22.5317ZM76.5451 18.4172C72.5286 18.4172 69.9489 15.315 69.9489 11.2658C69.9489 7.18401 72.5286 4.11448 76.5451 4.11448C80.5616 4.11448 83.174 7.18401 83.174 11.2658C83.174 15.315 80.5616 18.4172 76.5451 18.4172Z"
+                        fill="white" />
+                    <path
+                        d="M104.682 22.1398C111.507 22.1398 116.242 17.8294 116.242 11.2658C116.242 4.70226 111.507 0.3592 104.682 0.3592H96.0937V22.1398H104.682ZM104.682 18.058H100.731V4.44102H104.682C109.156 4.44102 111.507 7.41259 111.507 11.2658C111.507 14.9558 108.992 18.058 104.682 18.058Z"
+                        fill="white" />
+                    <path
+                        d="M139.843 22.1398V18.058H129.067V13.1271H139.615V9.04532H129.067V4.44102H139.843V0.3592H124.43V22.1398H139.843Z"
+                        fill="white" />
+                    <path
+                        d="M166 22.1398L161.102 13.8455C163.453 13.2904 165.869 11.2332 165.869 7.37993C165.869 3.33077 163.094 0.3592 158.555 0.3592H148.367V22.1398H153.003V14.4007H156.4L160.677 22.1398H166ZM157.869 10.3188H153.003V4.44102H157.869C159.73 4.44102 161.134 5.55128 161.134 7.37993C161.134 9.20859 159.73 10.3188 157.869 10.3188Z"
+                        fill="white" />
+                    <path d="M35.6294 9.24976H87.6189V12.6871H35.6294V9.24976Z" fill="#BEA67C" />
+                </svg>
+            </a>
+            <ul class="header__menu ">
+                <li><a href="#hero" class="header__menu-item --btntext --white --active">HOME</a></li>
+                <li><a href="#products" class="header__menu-item --btntext --white">PRODUCTS</a></li>
+                <li><a href="#videos" class="header__menu-item --btntext --white">VIDEOS</a></li>
+                <li><a href="#services" class="header__menu-item --btntext --white">SERVICES</a></li>
+                <li><a href="#about" class="header__menu-item --btntext --white">ABOUT</a></li>
+                <li><a href="#gallery" class="header__menu-item --btntext --white">GALLERY</a></li>
+                <li><a href="#news" class="header__menu-item --btntext --white">NEWS</a></li>
+            </ul>
+            <div class="header__cta --pointer --btntext">
+                <div class="header__cta-lang">
+                    <div class="current --white">
+                        <span class="current__text">EN</span>
+                        <img src="img/polygon1.svg" alt="" class="current__icon">
+                    </div>
+                    <ul class="dropdown">
+                        <li class="dropdown__item">VI</li>
+                        <li class="dropdown__item">JP</li>
+                        <li class="dropdown__item">AU</li>
+                    </ul>
+                </div>
+                <div class="header__cta-signup --btnyellow">SIGN UP</div>
+                <div class="header__cta-mobile --pointer">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="menumobile">
+        <ul class="header__menu">
+            <li><a href="#hero" class="header__menu-item --btntext --btntextmenu --active">HOME</a></li>
+            <li><a href="#products" class="header__menu-item --btntext --btntextmenu">PRODUCTS</a></li>
+            <li><a href="#videos" class="header__menu-item --btntext --btntextmenu">VIDEOS</a></li>
+            <li><a href="#services" class="header__menu-item --btntext --btntextmenu">SERVICES</a></li>
+            <li><a href="#about" class="header__menu-item --btntext --btntextmenu">ABOUT</a></li>
+            <li><a href="#gallery" class="header__menu-item --btntext --btntextmenu">GALLERY</a></li>
+            <li><a href="#news" class="header__menu-item --btntext --btntextmenu">NEWS</a></li>
+            <li><a class="header__menu-signup --btnyellow --pointer">SIGN UP</a></li>
+        </ul>
+    </nav>
+    <main class="main">
+        <section class="schero" id="hero">
+            <!-- slider -->
+            <div class="schero__slider">
+                <div class="schero__slider-item">
+                    <div class="content">
+                        <h2 class="content__heading --h1">WOODER1</h2>
+                        <a href="#" class="content__btn --btntext --white ">
+                            <span>LEARN MORE</span>
+                            <svg width="21" height="7" viewBox="0 0 21 7" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.4066 3.47129L0.654187 3.47129M16.2015 6.36841L20.0076 3.47129L16.2015 0.57417"
+                                    stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                    <picture class="thumb">
+                        <source media="(max-width:768px)" srcset="img/slider-1-m.jpg">
+                        <source media="(max-width:960px)" srcset="img/slider-1-t.jpg">
+                        <img src="img/slider-1-p.jpg" alt="slider-1-p">
+                    </picture>
+                </div>
+                <div class="schero__slider-item">
+                    <div class="content">
+                        <h2 class="content__heading --h1">WOODER2</h2>
+                        <a href="#" class="content__btn --btntext --white ">
+                            <span>LEARN MORE</span>
+                            <svg width="21" height="7" viewBox="0 0 21 7" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.4066 3.47129L0.654187 3.47129M16.2015 6.36841L20.0076 3.47129L16.2015 0.57417"
+                                    stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                    <picture class="thumb">
+                        <source media="(max-width:768px)" srcset="img/slider-2-m.jpg">
+                        <source media="(max-width:960px)" srcset="img/slider-2-t.jpg">
+                        <img src="img/slider-2-p.jpg" alt="slider-2-p">
+                    </picture>
+                </div>
+                <div class="schero__slider-item">
+                    <div class="content">
+                        <h2 class="content__heading --h1">WOODER3</h2>
+                        <a href="#" class="content__btn --btntext --white ">
+                            <span>LEARN MORE</span>
+                            <svg width="21" height="7" viewBox="0 0 21 7" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.4066 3.47129L0.654187 3.47129M16.2015 6.36841L20.0076 3.47129L16.2015 0.57417"
+                                    stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                    <picture class="thumb">
+                        <source media="(max-width:768px)" srcset="img/slider-3-m.jpg">
+                        <source media="(max-width:960px)" srcset="img/slider-3-t.jpg">
+                        <img src="img/slider-3-p.jpg" alt="slider-3-p">
+                    </picture>
+                </div>
+            </div>
+            <!-- botom cta -->
+            <div class="container-fluid">
+                <div class="schero__bottom">
+                    <div class="schero__bottom-left">
+                        <div class="number">
+                            <span class="current__number">01</span>/
+                            <span class="number__total">03</span>
+                        </div>
+                    </div>
+                    <div class="schero__bottom-center">
+                        <img class="mouse" src="img/mouse.svg" alt="">
+                        <img class="icon" src="img/arrow-bottom.svg" alt="">
+                    </div>
+                    <div class="schero__bottom-right">
+                        <div class="icon --btnprev">
+                            <svg width="24" height="9" viewBox="0 0 24 9" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.68313 4.35334L23 4.35334M5.32651 0.540039L1 4.35334L5.32651 8.16664"
+                                    stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="icon --btnnext">
+                            <svg width="24" height="10" viewBox="0 0 24 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.3169 5.1867L0.999999 5.1867M18.6735 9L23 5.1867L18.6735 1.37339"
+                                    stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="scproducts --pdt" id="products">
+            <div class="container">
+                <div class="scproducts__list">
+                    <div class="scproducts__list-textbox --textbox">
+                        <h2 class="heading --h2">FURNITURE</h2>
+                        <p class="text --gray">Wooder utilizes materials otherwise left behind, rendered useless
+                            in their original
+                            intent.
+                            By creating new pieces made
+                            one rerclaimed barnwood</p>
+                        <a href="#" class="icon --btntext">
+                            <span>LEARN MORE</span>
+                            <svg class="arrow" width="21" height="7" viewBox="0 0 21 7" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.4066 3.47129L0.654187 3.47129M16.2015 6.36841L20.0076 3.47129L16.2015 0.57417"
+                                    stroke="var(--cl-yellow)" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="scproducts__list-thumb">
+                        <img src="img/img-product-1.jpg" alt="">
+                    </div>
+                </div>
+                <div class="scproducts__list">
+                    <div class="scproducts__list-textbox --textbox">
+                        <h2 class="heading --h2">DECOR</h2>
+                        <p class="text --gray">We make all types of wooden decor as per design given by
+                            Architect,Interior designer, contractor which is suitable
+                            your premises.</p>
+                        <a href="#" class="icon --btntext">
+                            <span>LEARN MORE</span>
+                            <svg class="arrow" width="21" height="7" viewBox="0 0 21 7" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.4066 3.47129L0.654187 3.47129M16.2015 6.36841L20.0076 3.47129L16.2015 0.57417"
+                                    stroke="var(--cl-yellow)" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="scproducts__list-thumb">
+                        <img src="img/img-product-2.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="scvideos --pdtb" id="videos">
+            <div class="container">
+                <div class="scvideos__textbox --textbox">
+                    <h2 class="scvideos__textbox-heading --h2">WOODER - IS QUALITY</h2>
+                    <p class="scvideos__textbox-text --gray">Wooder utilizes materials otherwise left behind, rendered
+                        useless
+                        in their original intent. By creating new pieces made
+                        rerclaimed barnwood rendered useless in their original intent.</p>
+                </div>
+                <div class="scvideos__list">
+                    <figure class="scvideos__list-box">
+                        <div class="boxvideo --pointer" data-video-src="D1kpdhIzXPA">
+                            <svg class="boxvideo__icon" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.2075 10.753L6.27298 2.70784C5.84703 2.46197 5.323 2.46197 4.89652 2.70784C4.47126 2.95354 4.20898 3.40816 4.20898 3.89973V19.9897C4.20898 20.4815 4.47178 20.9358 4.89652 21.1811C5.10993 21.3042 5.34717 21.3653 5.58475 21.3653C5.82199 21.3653 6.05975 21.3042 6.27247 21.1811L20.207 13.1361C20.6328 12.8906 20.8949 12.4361 20.8949 11.9447C20.8957 11.4533 20.6331 10.9991 20.2075 10.753Z"
+                                    fill="white" />
+                            </svg>
+                            <img class="boxvideo__img" src="img/img-video-1.jpg" alt="">
+                        </div>
+                        <p class="text --gray">Innovative Design</p>
+                    </figure>
+                    <figure class="scvideos__list-box">
+                        <div class="boxvideo --pointer" data-video-src="lxPeCtiXor8">
+                            <svg class="boxvideo__icon" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.2075 10.753L6.27298 2.70784C5.84703 2.46197 5.323 2.46197 4.89652 2.70784C4.47126 2.95354 4.20898 3.40816 4.20898 3.89973V19.9897C4.20898 20.4815 4.47178 20.9358 4.89652 21.1811C5.10993 21.3042 5.34717 21.3653 5.58475 21.3653C5.82199 21.3653 6.05975 21.3042 6.27247 21.1811L20.207 13.1361C20.6328 12.8906 20.8949 12.4361 20.8949 11.9447C20.8957 11.4533 20.6331 10.9991 20.2075 10.753Z"
+                                    fill="white" />
+                            </svg>
+                            <img class="boxvideo__img" src="img/img-video-2.jpg" alt="">
+                        </div>
+                        <p class="text --gray">High-level Skills</p>
+                    </figure>
+                    <figure class="scvideos__list-box">
+                        <div class="boxvideo --pointer" data-video-src="d2X7VnUNJXk">
+                            <svg class="boxvideo__icon" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.2075 10.753L6.27298 2.70784C5.84703 2.46197 5.323 2.46197 4.89652 2.70784C4.47126 2.95354 4.20898 3.40816 4.20898 3.89973V19.9897C4.20898 20.4815 4.47178 20.9358 4.89652 21.1811C5.10993 21.3042 5.34717 21.3653 5.58475 21.3653C5.82199 21.3653 6.05975 21.3042 6.27247 21.1811L20.207 13.1361C20.6328 12.8906 20.8949 12.4361 20.8949 11.9447C20.8957 11.4533 20.6331 10.9991 20.2075 10.753Z"
+                                    fill="white" />
+                            </svg>
+                            <img class="boxvideo__img" src="img/img-video-2.jpg" alt="">
+                        </div>
+                        <p class="text --gray">Quality Products</p>
+                    </figure>
+                </div>
+            </div>
+        </section>
+        <section class="scbanner" id="services">
+            <div class="container ">
+                <div class="scbanner__textbox --textbox --white">
+                    <h2 class="scbanner__textbox-heading --h2 --yellow">WE DO THE DESIGN
+                        OF ANY COMPLEXITY</h2>
+                    <p class="scbanner__textbox-text">Wooder utilizes materials otherwise left behind, rendered
+                        useless
+                        in their original intent. By
+                        creating new pieces made
+                        o.rerclaimed barnwood</p>
+                    <div class="scbanner__textbox-cta --btntext --pointer">
+                        <svg class="icon" width="19" height="18" viewBox="0 0 19 18" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.0054 9.10585L8.43311 6.46602C8.29334 6.38535 8.1214 6.38535 7.98146 6.46602C7.84192 6.54664 7.75586 6.69582 7.75586 6.85711V12.1366C7.75586 12.298 7.84209 12.4471 7.98146 12.5276C8.05148 12.568 8.12933 12.588 8.20728 12.588C8.28513 12.588 8.36314 12.568 8.43294 12.5276L13.0052 9.8878C13.1449 9.80723 13.2309 9.65812 13.2309 9.49688C13.2312 9.33564 13.145 9.18658 13.0054 9.10585Z"
+                                fill="white" />
+                            <circle cx="9.75" cy="9" r="8.5" stroke="white" />
+                        </svg>
+                        WATCH VIDEO
+                    </div>
+                </div>
+            </div>
+            <picture class="scbanner__thumb">
+                <source media="(max-width:960px)" srcset="img/bg-video-m.jpg">
+                <source media="(max-width:768px)" srcset="img/bg-video-t.jpg">
+                <img src="img/bg-video-p.jpg" alt="">
+            </picture>
+        </section>
+        <section class="scabout --pdtb" id="about">
+            <div class="container">
+                <div class="scabout__thumb">
+                    <img src="img/img-about.jpg" alt="">
+                </div>
+                <div class="scabout__textbox --textbox">
+                    <h2 class="scabout__textbox-heading --h2">about us</h2>
+                    <p class="scabout__textbox-text --gray">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                        do
+                        eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                        ex ea
+                        commodo consequat.</p>
+                    <a href="#" class="scabout__textbox-cta --btntext">LEARN MORE
+                        <svg class="arrow" width="21" height="7" viewBox="0 0 21 7" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.4066 3.47129L0.654187 3.47129M16.2015 6.36841L20.0076 3.47129L16.2015 0.57417"
+                                stroke="var(--cl-yellow)" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="scgallery --pdtb" id="gallery">
+            <div class="container">
+                <div class="scgallery__textbox --textbox --white">
+                    <h2 class="scgallery__textbox-heading --h2">GALLERY</h2>
+                    <p class="scgallery__textbox-text">We are a team of professionals in the wood processing and
+                        the creation of wooden furniture of the highest class</p>
+                </div>
+                <div class="scgallery__thumb">
+                    <figure class="scgallery__thumb-item">
+                        <a data-fancybox="gallery" data-caption="gallery-1" href="img/img-gallery-1-l.jpg"
+                            class="linkimg">
+                            <img src="img/img-gallery-1.jpg" alt="">
+                        </a>
+                    </figure>
+                    <figure class="scgallery__thumb-item">
+                        <a data-fancybox="gallery" data-caption="gallery-2" href="img/img-gallery-2-l.jpg"
+                            class="linkimg">
+                            <img src="img/img-gallery-2.jpg" alt="">
+                        </a>
+                    </figure>
+                    <figure class="scgallery__thumb-item">
+                        <a data-fancybox="gallery" data-caption="gallery-3" href="img/img-gallery-3-l.jpg"
+                            class="linkimg">
+                            <img src="img/img-gallery-3.jpg" alt="">
+                        </a>
+                    </figure>
+                    <figure class="scgallery__thumb-item">
+                        <a data-fancybox="gallery" data-caption="gallery-4" href="img/img-gallery-4-l.jpg"
+                            class="linkimg">
+                            <img src="img/img-gallery-4.jpg" alt="">
+                        </a>
+                    </figure>
+                    <figure class="scgallery__thumb-item">
+                        <a data-fancybox="gallery" data-caption="gallery-5" href="img/img-gallery-5-l.jpg"
+                            class="linkimg">
+                            <img src="img/img-gallery-5.jpg" alt="">
+                        </a>
+                    </figure>
+                </div>
+            </div>
+        </section>
+        <section class="scnews --pdtb" id="news">
+            <div class="container">
+                <div class="scnews__textbox --textbox">
+                    <h2 class="scnews__textbox-heading --h2">NEWS</h2>
+                    <p class="scnews__textbox-text --gray">We are a team of professionals in the wood processing and
+                        the creation of wooden furniture of the highest class</p>
+                </div>
+
+                <ul class="scnews__tabs --pointer --yellow">
+                    <li class="tab --btntext --active" data-tab="1">All</li>
+                    <li class="tab --btntext " data-tab="2">technology</li>
+                    <li class="tab --btntext" data-tab="3">fashion</li>
+                </ul>
+                <div class="scnews__wrap">
+                    <div class="scnews__content scnews__list-1 --active">
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-1.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">Where does it come from? </a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur roots
+                                    in a piece of...</p>
+                            </div>
+                        </figure>
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-2.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">There are many variations of
+                                        passages</a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur Lorem Ipsum
+                                    is not...</p>
+                            </div>
+                        </figure>
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-3.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">It is a long established
+                                        fact that a reader It has roots
+                                        in a piece of...</a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur Lorem Ipsum
+                                    is not...</p>
+                            </div>
+                        </figure>
+                    </div>
+                    <div class="scnews__content scnews__list-2  ">
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-2.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">Where does it come from? </a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur roots
+                                    in a piece of...</p>
+                            </div>
+                        </figure>
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-3.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">There are many variations of
+                                        passages</a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur Lorem Ipsum
+                                    is not...</p>
+                            </div>
+                        </figure>
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-1.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">It is a long established
+                                        fact that a reader It has roots
+                                        in a piece of...</a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur Lorem Ipsum
+                                    is not...</p>
+                            </div>
+                        </figure>
+                    </div>
+                    <div class="scnews__content scnews__list-3 ">
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-3.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">Where does it come from? </a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur roots
+                                    in a piece of...</p>
+                            </div>
+                        </figure>
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-1.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">There are many variations of
+                                        passages</a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur Lorem Ipsum
+                                    is not...</p>
+                            </div>
+                        </figure>
+                        <figure class="scnews__content-box">
+                            <a href="" class="boximg">
+                                <img src="img/img-new-2.jpg" alt="">
+                            </a>
+                            <div class="content">
+                                <h3 class="content-heading --h3"><a href="">It is a long established
+                                        fact that a reader It has roots
+                                        in a piece of...</a></h3>
+                                <p class="content-des --gray">Contrary to popular belief, Lorem Ipsum
+                                    is not simply random text. It has roots
+                                    in a piece of classical Latin literatur Lorem Ipsum
+                                    is not...</p>
+                            </div>
+                        </figure>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <section class="sccarouset --pdb">
+            <div class="sccarouset__thumb">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-1.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-2.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-3.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-4.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-1.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-2.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-3.jpg" alt="">
+                <img class="sccarouset__thumb-item" src="img/img-carousel-4.jpg" alt="">
+            </div>
+            <div class="container">
+                <div class="sccarouset__propress">
+                    <span class="sccarouset__propress-bar"></span>
+                </div>
+            </div>
+        </section>
+        <section class="scaccordion --pdb">
+            <div class="container">
+                <div class="scaccordion__textbox --textbox">
+                    <h2 class="scaccordion__textbox-heading --h2">FAQ</h2>
+                    <p class="scaccordion__textbox-text --gray">Câu hỏi thường gặp</p>
+                </div>
+                <div class="accordion --btntext">Section 1 </div>
+                <div class="panel">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                        ex
+                        ea commodo
+                        consequat.</p>
+                </div>
+
+                <div class="accordion --btntext">Section 2</div>
+                <div class="panel">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                        ex
+                        ea commodo
+                        consequat.</p>
+                </div>
+
+                <div class="accordion --btntext">Section 3</div>
+                <div class="panel">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                        ex
+                        ea commodo
+                        consequat.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer" id="footer">
+        <div class="container">
+            <p class="footer__copyright --textbodysmall">© 2023 WOODER, CFD Circle</p>
+            <a href="#" class="footer__logo">
+                <svg width="166" height="23" viewBox="0 0 166 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M23.7072 22.1398L29.9116 0.3592H24.6869L20.8989 16.0987L16.7844 0.3592H13.1598L9.01266 16.0987L5.19208 0.3592H0L6.23702 22.1398H11.1679L14.9558 7.18401L18.7764 22.1398H23.7072Z"
+                        fill="white" />
+                    <path
+                        d="M46.6777 22.5317C53.2739 22.5317 58.0741 17.8294 58.0741 11.2658C58.0741 4.70226 53.2739 0 46.6777 0C40.1141 0 35.3139 4.70226 35.3139 11.2658C35.3139 17.8294 40.1141 22.5317 46.6777 22.5317ZM46.6777 18.4172C42.6612 18.4172 40.0814 15.315 40.0814 11.2658C40.0814 7.18401 42.6612 4.11448 46.6777 4.11448C50.6942 4.11448 53.3065 7.18401 53.3065 11.2658C53.3065 15.315 50.6942 18.4172 46.6777 18.4172Z"
+                        fill="white" />
+                    <path
+                        d="M76.5451 22.5317C83.1413 22.5317 87.9416 17.8294 87.9416 11.2658C87.9416 4.70226 83.1413 0 76.5451 0C69.9815 0 65.1813 4.70226 65.1813 11.2658C65.1813 17.8294 69.9815 22.5317 76.5451 22.5317ZM76.5451 18.4172C72.5286 18.4172 69.9489 15.315 69.9489 11.2658C69.9489 7.18401 72.5286 4.11448 76.5451 4.11448C80.5616 4.11448 83.174 7.18401 83.174 11.2658C83.174 15.315 80.5616 18.4172 76.5451 18.4172Z"
+                        fill="white" />
+                    <path
+                        d="M104.682 22.1398C111.507 22.1398 116.242 17.8294 116.242 11.2658C116.242 4.70226 111.507 0.3592 104.682 0.3592H96.0937V22.1398H104.682ZM104.682 18.058H100.731V4.44102H104.682C109.156 4.44102 111.507 7.41259 111.507 11.2658C111.507 14.9558 108.992 18.058 104.682 18.058Z"
+                        fill="white" />
+                    <path
+                        d="M139.843 22.1398V18.058H129.067V13.1271H139.615V9.04532H129.067V4.44102H139.843V0.3592H124.43V22.1398H139.843Z"
+                        fill="white" />
+                    <path
+                        d="M166 22.1398L161.102 13.8455C163.453 13.2904 165.869 11.2332 165.869 7.37993C165.869 3.33077 163.094 0.3592 158.555 0.3592H148.367V22.1398H153.003V14.4007H156.4L160.677 22.1398H166ZM157.869 10.3188H153.003V4.44102H157.869C159.73 4.44102 161.134 5.55128 161.134 7.37993C161.134 9.20859 159.73 10.3188 157.869 10.3188Z"
+                        fill="white" />
+                    <path d="M35.6294 9.24976H87.6189V12.6871H35.6294V9.24976Z" fill="#BEA67C" />
+                </svg>
+            </a>
+            <div class="footer__baktotop --pointer">
+                <svg width="7" height="15" viewBox="0 0 7 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.49967 0.934721L3.49967 14.5M5.83301 3.25323L3.49967 0.5L1.16634 3.25323" stroke="white"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+    </footer>
+
+    <div class="register">
+        <div class="register_inner">
+            <span class="close --pointer">
+                <svg width="11" height="11" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="16.9707" width="24" height="2.5" transform="rotate(-45 0 16.9707)" fill="white" />
+                    <rect x="1.76758" width="24" height="2.5" transform="rotate(45 1.76758 0)" fill="white" />
+                </svg>
+
+            </span>
+            <h2 class="register__heading --h2">create acount</h2>
+            <div class="register__social">
+                <div class="register__social-google --btntext --pointer">
+                    <img class="icon" src="img/google.svg" alt="">
+                    <span>google</span>
+                </div>
+                <div class="register__social-facebook --btntext --pointer">
+                    <img class="icon" src="img/facebook.svg" alt="">
+                    <span>facebook</span>
+                </div>
+            </div>
+            <p class="register__text">Or register using</p>
+            <form class="register__form" action="">
+                <div class="form__group">
+                    <input class="form__group-input" type="text" name="fullname" id="fullname" placeholder="Fullname">
+                    <p class="error --textbodysmall"></p>
+                </div>
+                <div class="form__group">
+                    <input class="form__group-input" type="text" name="email" id="email" placeholder="Email address ">
+                    <p class="error --textbodysmall"></p>
+                </div>
+                <div class="form__group">
+                    <input class="form__group-input" type="text" name="username" id="username" placeholder="Username">
+                    <p class="error --textbodysmall"></p>
+                </div>
+                <div class="form__group">
+                    <input class="form__group-input" type="password" name="password" id="password"
+                        placeholder="Password">
+                    <img src="img/hide.svg" id="eyeicon" alt="">
+                    <p class="error --textbodysmall"></p>
+                </div>
+                <div class="form__group">
+                    <input class="form__group-input" type="password" name="cfpassword" id="cfpassword"
+                        placeholder="Confirm Password">
+                    <img src="img/hide.svg" id="cfeyeicon" alt="">
+                    <p class="error --textbodysmall"></p>
+                </div>
+                <div class="form__group">
+                    <label class="form__group-check --pointer --textbodysmall" for="confirm">
+                        <input class="checkbox --pointer" type="checkbox" name="confirm" id="confirm">
+                        Send me special offers, information and recommendations
+                    </label>
+                    <p class="error --textbodysmall"></p>
+                </div>
+                <button class="register__form-signup --btnyellow --pointer" type="submit">sign up</button>
+            </form>
+        </div>
+    </div>
+
+    </div>
+    <div class="popupvideo">
+        <div class="popupvideo__inner">
+            <div class="popupvideo__inner-iframe">
+                <iframe width="100%" height="100%" src="" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+                <div class="popupvideo__inner-close --pointer">
+                    <img src="img/close.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="dest/jsmain.min.js"></script>
+<script src="dest/main.js"></script>
+
+
+</html>

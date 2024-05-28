@@ -1,0 +1,109 @@
+.--h1{
+    font-size: var(--h1-fs);
+    line-height: var(--h1-lh);
+    letter-spacing: var(--h1-lp);
+    font-family: var(--h1-ff);
+    text-transform: var(--text-uppercase);
+    color: var(--cl-yellow);
+}
+
+.--h2{
+    font-size: var(--h2-fs);
+    line-height: var(--h2-lh);
+    letter-spacing: var(--h2-lp);
+    font-family: var(--h2-ff);
+    text-transform: var(--text-uppercase);
+}
+
+.--h3{
+    font-size: var(--h3-fs);
+    line-height: var(--h3-lh);
+    letter-spacing: var(--h3-lp);
+    font-family: var(--h3-ff);
+    text-transform: var(--text-uppercase);
+}
+
+.--textbodysmall{
+    font-size: var(--text-bd-s-fs);
+    line-height: var(--text-bd-s-lh);
+    letter-spacing: var(--text-bd-s-lp);
+}
+.--textbox{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    h2{
+        margin-bottom: 10px;
+        @include xxs{
+            margin-bottom: 8px;
+        }
+    }
+}
+
+.--pointer{
+    cursor: pointer;
+}
+
+.--btntext{
+    font-size: var(--text-btn-fs);
+    line-height: var(--text-btn-lh);
+    letter-spacing: var(--text-btn-lp);
+    font-family: var(--text-btn-ff);
+    text-transform: var(--text-uppercase);
+}
+
+.--btntext{
+    font-size: var(--text-btn-fs);
+    line-height: var(--text-btn-lh);
+    letter-spacing: var(--text-btn-lp);
+    font-family: var(--text-btn-ff);
+    text-transform: var(--text-uppercase);
+}
+
+.--btntextmenu{
+    font-size: var(--text-btn-menu-fs);
+    line-height: var(--text-btn-menu-lh);
+    letter-spacing: var(--text-btn-menu-lp);
+    font-family: var(--text-btn-ff);
+    text-transform: var(--text-uppercase);
+}
+
+.--btnyellow{
+    font-size: var(--text-btn-fs);
+    line-height: var(--text-btn-lh);
+    letter-spacing: var(--text-btn-lp);
+    font-family: var(--text-btn-ff);
+    text-transform: var(--text-uppercase);
+    background-color: var(--cl-yellow);
+    color: var(--cl-white);
+}
+
+.--yellow{
+    color: var(--cl-yellow);
+}
+.--white{
+    color: var(--cl-white);
+}
+.--gray{
+    color: var(--cl-gray);
+}
+
+.arrow{
+    @include animation-direction-left;
+}
+input{
+    border: 1px solid black;
+    height: 47px;
+    padding: 0 20px;
+}
+
+.--noHover{
+    pointer-events: all;
+}
+
+.--displayActive{
+    display: flex;
+}
+.displayNone{
+    display: none;
+}
